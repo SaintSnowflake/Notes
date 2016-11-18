@@ -1,33 +1,206 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
     tools:context="com.example.bigdaddy.notes.AddNoteActivity">
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/text_size"
-        android:layout_margin="@dimen/layout_margin"
-        android:text="Название"/>
-
-    <EditText
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/headerSize" />
+        <EditText
+            android:id="@+id/text_add_note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Введите текст"
+            android:maxLength="100"
+            android:inputType="textMultiLine"
+            android:lines="4" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp">
+            <Button
+                android:layout_width="@dimen/add_button_size"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/no_repeat_button"
+                android:text="Однократное"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/colorHeader"/>
+            <Button
+                android:layout_width="@dimen/add_button_size"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/repeat_button"
+                android:text="Повторяемое"
+                android:background="@color/colorNote"
+                android:textColor="@color/colorHeader"/>
+            <Button
+                android:layout_width="@dimen/add_button_size"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/everyday_button"
+                android:text="Ежедневное"
+                android:background="@color/colorNote"
+                android:textColor="@color/colorHeader"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/container">
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <Button
+                    android:layout_width="@dimen/add_button_size"
+                    android:layout_height="@dimen/add_button_size"
+                    android:id="@+id/day1_button"
+                    android:background="@drawable/icon"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp"
+                    android:text="ПН"
+                    android:layout_marginTop="@dimen/days_buttons_margin"
+                    android:layout_marginBottom="@dimen/days_buttons_margin"
+                    android:layout_marginRight="@dimen/days_buttons_sides_margin"
+                    android:layout_marginLeft="@dimen/days_buttons_sides_margin"/>
+                <Button
+                    android:layout_width="@dimen/add_button_size"
+                    android:layout_height="@dimen/add_button_size"
+                    android:id="@+id/day2_button"
+                    android:background="@drawable/icon"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp"
+                    android:text="ВТ"
+                    android:layout_marginTop="@dimen/days_buttons_margin"
+                    android:layout_marginBottom="@dimen/days_buttons_margin"
+                    android:layout_marginRight="@dimen/days_buttons_sides_margin"
+                    android:layout_marginLeft="@dimen/days_buttons_sides_margin"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <Button
+                    android:layout_width="@dimen/add_button_size"
+                    android:layout_height="@dimen/add_button_size"
+                    android:id="@+id/day3_button"
+                    android:background="@drawable/icon"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp"
+                    android:text="СР"
+                    android:layout_marginTop="@dimen/days_buttons_margin"
+                    android:layout_marginBottom="@dimen/days_buttons_margin"
+                    android:layout_marginRight="@dimen/days_buttons_sides_margin"
+                    android:layout_marginLeft="@dimen/days_buttons_sides_margin"/>
+                <Button
+                    android:layout_width="@dimen/add_button_size"
+                    android:layout_height="@dimen/add_button_size"
+                    android:id="@+id/day4_button"
+                    android:background="@drawable/icon"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp"
+                    android:text="ЧТ"
+                    android:layout_marginTop="@dimen/days_buttons_margin"
+                    android:layout_marginBottom="@dimen/days_buttons_margin"
+                    android:layout_marginRight="@dimen/days_buttons_sides_margin"
+                    android:layout_marginLeft="@dimen/days_buttons_sides_margin"/>
+                <Button
+                    android:layout_width="@dimen/add_button_size"
+                    android:layout_height="@dimen/add_button_size"
+                    android:id="@+id/day5_button"
+                    android:background="@drawable/icon"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp"
+                    android:text="ПТ"
+                    android:layout_marginTop="@dimen/days_buttons_margin"
+                    android:layout_marginBottom="@dimen/days_buttons_margin"
+                    android:layout_marginRight="@dimen/days_buttons_sides_margin"
+                    android:layout_marginLeft="@dimen/days_buttons_sides_margin"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <Button
+                    android:layout_width="@dimen/add_button_size"
+                    android:layout_height="@dimen/add_button_size"
+                    android:id="@+id/day6_button"
+                    android:background="@drawable/icon"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp"
+                    android:text="СБ"
+                    android:layout_marginTop="@dimen/days_buttons_margin"
+                    android:layout_marginBottom="@dimen/days_buttons_margin"
+                    android:layout_marginRight="@dimen/days_buttons_sides_margin"
+                    android:layout_marginLeft="@dimen/days_buttons_sides_margin"/>
+                <Button
+                    android:layout_width="@dimen/add_button_size"
+                    android:layout_height="@dimen/add_button_size"
+                    android:id="@+id/day7_button"
+                    android:background="@drawable/icon"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp"
+                    android:text="ВС"
+                    android:layout_marginTop="@dimen/days_buttons_margin"
+                    android:layout_marginBottom="@dimen/days_buttons_margin"
+                    android:layout_marginRight="@dimen/days_buttons_sides_margin"
+                    android:layout_marginLeft="@dimen/days_buttons_sides_margin"/>
+            </LinearLayout>
+        </LinearLayout>
+        <DatePicker
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/datePicker"
+            android:calendarViewShown="false"
+            android:spinnersShown="true"/>
+    </LinearLayout>
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Повтор"
-        android:textSize="@dimen/text_size"
-        android:layout_margin="@dimen/layout_margin"/>
-
-
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/headerSize"
+            android:background="@color/colorPrimary"
+            android:text="Добавить заметку"
+            android:textSize="@dimen/head_text_size"
+            android:textStyle="bold"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/paddingLeft"
+            android:textColor="@color/colorHeader"
+            android:layout_alignParentTop="true"/>
+        <Button
+            android:layout_width="@dimen/add_button_size"
+            android:layout_height="@dimen/add_button_size"
+            android:id="@+id/add_button"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/end_icon_dark"
+            android:layout_margin="20dp"/>
+        <Button
+            android:layout_width="@dimen/add_button_size"
+            android:layout_height="@dimen/add_button_size"
+            android:id="@+id/back_button"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/back_icon_dark"
+            android:layout_margin="20dp"/>
+    </RelativeLayout>
+</FrameLayout>

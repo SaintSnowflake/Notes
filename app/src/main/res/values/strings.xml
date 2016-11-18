@@ -1,5 +1,3 @@
 <resources>
-    <string name="app_name">ToDoList</string>
-    <string name="today_plan">Задача на сегодняшний день</string>
-    <string name="tomorrow_plan">Задача на завтрашний день</string>
+    <string name="app_name">Notes</string>
 </resources>
