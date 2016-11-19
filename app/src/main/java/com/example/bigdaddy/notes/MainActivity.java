@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
 
     DBHelper dbHelper;
     Button add_note_button;
@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView note;
     Calendar calendar;
     int year, month, day, dayOfWeek;
+    float startX, startY;
+    SQLiteDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
         dbHelper = new DBHelper(this);
+        database = dbHelper.getWritableDatabase();
         container = (LinearLayout)findViewById(R.id.container);
         layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(10, 10, 10, 0);
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             dayOfWeek = 7;
         else
             dayOfWeek--;
+        delete_old_notes();
         add_notes();
     }
     @Override
@@ -56,8 +60,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN: // нажатие
+                startX = event.getX();
+                startY = event.getY();
+                break;
+            case MotionEvent.ACTION_MOVE: // движение
+                break;
+            case MotionEvent.ACTION_UP: // отпускание
+            case MotionEvent.ACTION_CANCEL:
+                float endX = event.getX();
+                float endY = event.getY();
+                if (Math.abs(endX - startX) > 300 && Math.abs(endY - startY) < 40){
+                    if (startX < endX) {
+                        int id = v.getId();
+                        v.setVisibility(View.GONE);
+                        database.delete(DBHelper.TABLE_NAME, "_id = " + id, null);
+                    }
+                }
+                break;
+        }
+        return true;
+    }
+    public void delete_old_notes(){
+        Cursor cursor = database.query(DBHelper.TABLE_NAME, null, null, null, null, null, DBHelper.DATE);
+        int curDate = year * 10000 + month * 100 + day;
+        if (cursor.moveToFirst()) {
+            int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
+            int dateIndex = cursor.getColumnIndex(DBHelper.DATE);
+            int repeatIndex = cursor.getColumnIndex(DBHelper.REPEAT);
+            do {
+                if (cursor.getInt(dateIndex) < curDate && cursor.getInt(repeatIndex) == 0) {
+                    database.delete(DBHelper.TABLE_NAME, "_id = " + cursor.getInt(idIndex), null);
+                }
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+    }
     public void add_notes(){
-        SQLiteDatabase database = dbHelper.getWritableDatabase();
         Cursor cursor = database.query(DBHelper.TABLE_NAME, null, null, null, null, null, DBHelper.DATE);
         int curDate = year * 10000 + month * 100 + day;
         if (cursor.moveToFirst()) {
@@ -76,29 +118,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 days = days % 10;
                 if (cursor.getInt(dateIndex) == curDate || cursor.getInt(repeatIndex) == 2 || days == 1) {
-                    addNote(cursor.getString(textIndex));
+                    addNote(cursor.getString(textIndex), cursor.getInt(idIndex));
                 }
-                Log.d("myLog", "ID = " + cursor.getInt(idIndex) +
-                        ", text = " + cursor.getString(textIndex) +
-                        ", date = " + cursor.getInt(dateIndex) +
-                        ", repeat = " + cursor.getInt(repeatIndex) +
-                        ", days = " + cursor.getInt(daysIndex));
             } while (cursor.moveToNext());
         }
         else {
-            addNote("На сегодня дел нет");
+            addNote("На сегодня дел нет", 0);
         }
         cursor.close();
     }
-    public void addNote(String str){
+    public void addNote(String str, int id){
         note = new TextView(MainActivity.this);
         note.setText(str);
+        note.setId(id);
         note.setLayoutParams(layoutParams);
         note.setTextSize(14);
-        int paddingPx = dpToPx(18);
-        note.setPadding(paddingPx, 20, 20, 20);
+        note.setPadding(dpToPx(18), 20, 20, 20);
         note.setBackgroundColor(getResources().getColor(R.color.colorNote));
-        note.invalidate();
+        note.setOnTouchListener(this);
         container.addView(note);
     }
     public static int dpToPx(int dp)

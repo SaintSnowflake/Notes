@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -81,7 +80,6 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
                 datePicker.setVisibility(View.VISIBLE);
                 linearLayout.setVisibility(View.GONE);
                 note_type = NotesType.NO_REPEAT;
-                Log.d("myLog", "no_repeat_button");
                 break;
             case R.id.repeat_button:
                 repeat_button.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -90,7 +88,6 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
                 datePicker.setVisibility(View.GONE);
                 linearLayout.setVisibility(View.VISIBLE);
                 note_type = NotesType.REPEAT;
-                Log.d("myLog", "repeat_button");
                 break;
             case R.id.everyday_button:
                 repeat_button.setBackgroundColor(getResources().getColor(R.color.colorNote));
@@ -99,7 +96,6 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
                 datePicker.setVisibility(View.GONE);
                 linearLayout.setVisibility(View.GONE);
                 note_type = NotesType.EVERYDAY;
-                Log.d("myLog", "everyday_button");
                 break;
             case R.id.day1_button:
                 if (daysOfWeek[0]){
@@ -183,8 +179,6 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
     public void addNoteInDB(){
         SQLiteDatabase database = dbHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        Log.d("myLog", "add note");
-        Log.d("myLog", note_type.toString());
         switch (note_type){
             case NO_REPEAT:
                 DatePicker datePicker;
